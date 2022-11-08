@@ -1,9 +1,9 @@
 {{>layouts/header}}
 <div>
-    {{# id}}
+    {{# id}} //if?
         <h1>{{id}} {{username}} Hello! </h1>
     {{/ id}}
-    {{^ id}}
+    {{^ id}} //else?
         <h1>{{username}} Hello! </h1>
     {{/ id}}
 </div>
