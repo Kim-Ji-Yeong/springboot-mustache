@@ -6,10 +6,7 @@ import com.mustache.repository.ArticleRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,14 +23,14 @@ public class ArticleController {
     }
 
     @GetMapping("/list")
-    public String list(Model model){
+    public String list(Model model) {
         List<Article> articles = articleRepository.findAll();
-        model.addAttribute("articles",articles);
-        return "list";
+        model.addAttribute("articles", articles);
+        return "articles/list";
     }
 
     @GetMapping("")
-    public String index(){
+    public String index() {
         return "redirect:/articles/list";
     }
 
@@ -45,19 +42,38 @@ public class ArticleController {
     @GetMapping(value = "/{id}")
     public String selectSingle(@PathVariable Long id, Model model) {
         Optional<Article> optArticle = articleRepository.findById(id);
-        if(!optArticle.isEmpty()){
-            model.addAttribute("article",optArticle.get());
-            return "show";
-        }else{
-            return "error";
+        if (!optArticle.isEmpty()) {
+            model.addAttribute("article", optArticle.get());
+            return "articles/show";
+        } else {
+            return "articles/error";
         }
     }
 
-    @PostMapping(value = "/posts")
-    public String createArticle(ArticleDto articleDto){
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable Long id, Model model) {
+        Optional<Article> optionalArticle = articleRepository.findById(id);
+        if (!optionalArticle.isEmpty()) {
+            model.addAttribute("article", optionalArticle.get());
+            return "articles/edit";
+        } else {
+            model.addAttribute("message", String.format("%d가 없습니다.", id));
+            return "articles/error";
+        }
+    }
+
+    @PostMapping("/post")
+    public String articles(ArticleDto articleDto) {
         log.info(articleDto.toString());
-//        Article article = form.toEntity();
         Article savedArticle = articleRepository.save(articleDto.toEntity());
-        return String.format("redirect:/articles/%d",savedArticle.getId());
+        return String.format("redirect:/articles/%d", savedArticle.getId());
+    }
+
+    @PostMapping("/{id}/update")
+    public String update(@PathVariable Long id, ArticleDto articleDto, Model model) {
+        log.info("title:{} content:{}", articleDto.getTitle(), articleDto.getContent());
+        Article article = articleRepository.save(articleDto.toEntity());
+        model.addAttribute("article",article);
+        return String.format("redirect:/articles/%d",article.getId());
     }
 }
