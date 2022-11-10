@@ -61,12 +61,17 @@ public class ArticleController {
             return "articles/error";
         }
     }
+    @GetMapping("/{id}/delete")
+    public String delete(@PathVariable Long id) {
+        articleRepository.deleteById(id);
+        return "redirect:/articles";
+    }
 
     @PostMapping("/post")
     public String articles(ArticleDto articleDto) {
         log.info(articleDto.toString());
         Article savedArticle = articleRepository.save(articleDto.toEntity());
-        return String.format("redirect:/articles/%d", savedArticle.getId());
+        return "redirect:/articles/" + savedArticle.getId();
     }
 
     @PostMapping("/{id}/update")
