@@ -6,7 +6,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:8080/likelion
+    url: jdbc:mysql://localhost:8080/likelion-db1
     username: root
     password: password
 
