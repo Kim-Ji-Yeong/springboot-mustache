@@ -23,4 +23,14 @@ public interface HospitalRepository extends JpaRepository<Hospital,Integer> {
 
     // 병상 수가 10개 이상 20개 미만인 병원을 모두 찾기
     List<Hospital> findByTotalNumberOfBedsBetweenOrderByTotalNumberOfBedsDesc(Integer start, Integer end);
-}
+
+
+//        List<Hospital> findByBusinessTypeNameIn(List<String> businessTypes);
+//        List<Hospital> findByRoadNameAddressContaining(String keyword);
+//        List<Hospital> findByHospitalNameStartsWith(String keyword);
+//        List<Hospital> findByHospitalNameEndsWith(String keyword);
+//        List<Hospital> findByTotalNumberOfBedsBetween(int lowerLimit, int upperLimit);
+//        List<Hospital> findByPatientRoomCountBetween(int lowerLimit, int upperLimit);
+//        List<Hospital> findByPatientRoomCountBetweenOrderByPatientRoomCountDesc(int lowerLimit, int upperLimit);
+
+    }
